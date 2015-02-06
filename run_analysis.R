@@ -21,14 +21,14 @@ run_analysis <- function(){
 
       ## Load activities labels
       activityLabelUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/activity_labels.txt", 
+            "/UCI HAR Dataset/activity_labels.txt", 
             sep="")
       activities_labels <- read.table(activityLabelUrl, 
             col.names=c('ActivityID', 'Activity'))
 
       ## Load features labels
       featuresLabelUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/features.txt", 
+            "/UCI HAR Dataset/features.txt", 
             sep="")
       features_labels <- read.table(featuresLabelUrl)
 
@@ -38,13 +38,13 @@ run_analysis <- function(){
 
       ## Load test data measurements
       testUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/test/X_test.txt", 
+            "/UCI HAR Dataset/test/X_test.txt", 
             sep="")
       test <- read.table(testUrl)
 
       ## Load test data subjects
       testSubjUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/test/subject_test.txt", 
+            "/UCI HAR Dataset/test/subject_test.txt", 
             sep="")
       test_subjects <- read.table(testSubjUrl, 
             col.names=c('SubjectID'))
@@ -62,20 +62,20 @@ run_analysis <- function(){
 
       ## Load train data measurements
       trainUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/train/X_train.txt", 
+            "/UCI HAR Dataset/train/X_train.txt", 
             sep="")
       train <- read.table(trainUrl)
 
       ## Load test data subjects
       trainSubjUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/train/subject_train.txt", 
+            "/UCI HAR Dataset/train/subject_train.txt", 
             sep="")
       train_subjects <- read.table(trainSubjUrl, 
             col.names=c('SubjectID'))
 
       ## Load test data activities
       trainActivitiesUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/train/y_train.txt", 
+            "/UCI HAR Dataset/train/y_train.txt", 
             sep="")
       train_activities <- read.table(trainActivitiesUrl, 
             col.names=c('ActivityID'))
