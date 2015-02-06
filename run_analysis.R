@@ -1,6 +1,6 @@
 run_analysis <- function(){
       ##
-      ## Assignment:
+      ## Assignment for "Getting and Cleaning Data", Februrary 2015:
       ## 1- Merge the training and the test sets to create one data set
       ## 2- Extract only the measurements on the mean and standard deviation for
       ##    each measurement.
@@ -9,6 +9,16 @@ run_analysis <- function(){
       ## 5- From the data set in step 4, create a second, independent tidy data  
       ##    set with the average of each variable for each activity and each 
       ##    subject
+      ##
+      ## Input as described in the submission instructions: 
+      ##    The code should have a file run_analysis.R in the main directory 
+      ##    that can be run as long as the Samsung data is in your working 
+      ##    directory.
+      ##
+      ##  http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+      ##
+      ## Output: run_analysis.txt
+      ## Output Location: Working Directory
       ##
       
       ##########################################################################
@@ -19,17 +29,13 @@ run_analysis <- function(){
       ## Step 1.1 - Load labels
       ##########################################################################
 
-      ## Load activities labels
-      activityLabelUrl <- paste(getwd(), 
-            "/UCI HAR Dataset/activity_labels.txt", 
-            sep="")
+      ## Load activity labels
+      activityLabelUrl <- "./UCI HAR Dataset/activity_labels.txt"
       activities_labels <- read.table(activityLabelUrl, 
             col.names=c('ActivityID', 'Activity'))
 
-      ## Load features labels
-      featuresLabelUrl <- paste(getwd(), 
-            "/UCI HAR Dataset/features.txt", 
-            sep="")
+      ## Load feature labels
+      featuresLabelUrl <- "./UCI HAR Dataset/features.txt"
       features_labels <- read.table(featuresLabelUrl)
 
       ##########################################################################
@@ -37,22 +43,16 @@ run_analysis <- function(){
       ##########################################################################
 
       ## Load test data measurements
-      testUrl <- paste(getwd(), 
-            "/UCI HAR Dataset/test/X_test.txt", 
-            sep="")
+      testUrl <- "./UCI HAR Dataset/test/X_test.txt"
       test <- read.table(testUrl)
 
       ## Load test data subjects
-      testSubjUrl <- paste(getwd(), 
-            "/UCI HAR Dataset/test/subject_test.txt", 
-            sep="")
+      testSubjUrl <- "./UCI HAR Dataset/test/subject_test.txt"
       test_subjects <- read.table(testSubjUrl, 
             col.names=c('SubjectID'))
 
       ## Load test data activities
-      testActivitiesUrl <- paste(getwd(), 
-            "/data/UCI HAR Dataset/test/y_test.txt", 
-            sep="")
+      testActivitiesUrl <- "./UCI HAR Dataset/test/y_test.txt"
       test_activities <- read.table(testActivitiesUrl, 
             col.names=c('ActivityID'))
 
@@ -61,27 +61,21 @@ run_analysis <- function(){
       ##########################################################################
 
       ## Load train data measurements
-      trainUrl <- paste(getwd(), 
-            "/UCI HAR Dataset/train/X_train.txt", 
-            sep="")
+      trainUrl <- "./UCI HAR Dataset/train/X_train.txt"
       train <- read.table(trainUrl)
 
       ## Load test data subjects
-      trainSubjUrl <- paste(getwd(), 
-            "/UCI HAR Dataset/train/subject_train.txt", 
-            sep="")
+      trainSubjUrl <- "./UCI HAR Dataset/train/subject_train.txt"
       train_subjects <- read.table(trainSubjUrl, 
             col.names=c('SubjectID'))
 
       ## Load test data activities
-      trainActivitiesUrl <- paste(getwd(), 
-            "/UCI HAR Dataset/train/y_train.txt", 
-            sep="")
+      trainActivitiesUrl <- "./UCI HAR Dataset/train/y_train.txt"
       train_activities <- read.table(trainActivitiesUrl, 
             col.names=c('ActivityID'))
       
-      ## Note: We will filter the datasets before merging. Step-1 complete
-      ##       a further down, below
+      ## Note: We will filter the datasets before merging. Step-1 completes
+      ##       further down, after step-4
 
       ##########################################################################
       ## Step 2.0 - Extract only the measurements on the mean and standard 
@@ -92,12 +86,13 @@ run_analysis <- function(){
       ## step 2.1 - Create vector of selected features (mean and standard 
       ##            measurements) 
       ##########################################################################
-      toMatch <- c("mean", "std")
-      matches <- unique (
-            grep(paste(toMatch,collapse="|"), 
+      selFeatures <- c("mean", "std")
+      selFeaturesList <- unique (
+            grep(paste(selFeatures,collapse="|"), 
             features_labels$V2, 
             value=TRUE))
-      selected_features <- features_labels[features_labels$V2 %in% matches, ]
+      selected_features <- features_labels[features_labels$V2 
+            %in% selFeaturesList, ]
       selected_features_v <- paste(rep("V", times=48), 
             selected_features[,1], sep="")
 
@@ -149,11 +144,11 @@ run_analysis <- function(){
       
       ## Bind activities to activities ID to Description in selected test data
       complete_test_desc <- (merge(complete_test, 
-                                   activities_labels, all=TRUE))[,-1]      
+            activities_labels, all=TRUE))[,-1]      
 
       ## Bind activities to activities ID to Description in selected test data
       complete_train_desc <- (merge(complete_train, 
-                                    activities_labels, all=TRUE))[,-1]
+            activities_labels, all=TRUE))[,-1]
 
       ##########################################################################
       ## Step 1.0 - Complete the final merge
@@ -182,7 +177,7 @@ run_analysis <- function(){
       ## using row.name=FALSE
       ##########################################################################
 
-      outputUrl <- "./data/run_analysis.txt"
+      outputUrl <- "./run_analysis.txt"
       write.table(Fitness_DT, file=outputUrl, row.names=FALSE)
       
       ## return the final dataset to the global environment
